@@ -28,4 +28,22 @@ public class ProductIActionController : ControllerBase
 
         return ret;
     }
+
+    [HttpGet("{id}")]
+    public IActionResult Get(int id)
+    {
+        IActionResult ret;
+        Product? entity;
+        
+        entity = new ProductRepository().Get(id);
+
+        if(entity != null) {
+            ret = StatusCode(StatusCodes.Status200OK, entity);
+        }
+        else {
+            ret = StatusCode(StatusCodes.Status404NotFound, $"Can't find Product with ID '{id}'.");
+        }
+
+        return ret;
+    }
 }
