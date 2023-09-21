@@ -18,4 +18,14 @@ public class ProductEntityController : ControllerBase
 
         return list;
     }
+
+    [HttpGet("{id}")]
+    public Product? Get(int id)
+    {
+        Product? entity;
+        
+        entity = new ProductRepository().Get(id);
+
+        return entity;
+    }
 }
