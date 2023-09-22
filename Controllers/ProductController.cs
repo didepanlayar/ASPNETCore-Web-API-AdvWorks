@@ -36,7 +36,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    [Route("ByNameAndPrice/Name/{name}/ListPrice/{listPrice}")]
+    [Route("ByNameAndPrice/Name/{name:alpha}/ListPrice/{listPrice:decimal:min(1)}")]
     public ActionResult<IEnumerable<Product>> ByNameAndPrice(string name, decimal listPrice)
     {
         Console.WriteLine(name);
