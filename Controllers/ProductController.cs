@@ -9,9 +9,6 @@ namespace AdvWorksAPI.Controllers;
 public class ProductController : ControllerBase
 {
     [HttpGet]
-    [Route("")]
-    [Route("GetAll")]
-    [Route("GetAllProducts")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<IEnumerable<Product>> Get()
@@ -27,6 +24,15 @@ public class ProductController : ControllerBase
         else {
             return StatusCode(StatusCodes.Status404NotFound, "No products are available.");
         }
+    }
+
+    [HttpGet]
+    [Route("ByCategory/{categoryId}")]
+    public ActionResult<IEnumerable<Product>> SearchByCategory(int categoryId)
+    {
+        Console.WriteLine(categoryId.ToString());
+
+        return StatusCode(StatusCodes.Status200OK);
     }
 
     [HttpGet("{id}")]
