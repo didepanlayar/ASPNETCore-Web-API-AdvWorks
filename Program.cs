@@ -1,9 +1,12 @@
 using AdvWorksAPI.EntityLayer;
+using AdvWorksAPI.Interfaces;
+using AdvWorksAPI.RepositoryLayer;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddSingleton<AdvWorksAPIDefaults, AdvWorksAPIDefaults>();
+builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

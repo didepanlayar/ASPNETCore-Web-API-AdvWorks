@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using AdvWorksAPI.EntityLayer;
+using AdvWorksAPI.Interfaces;
 using AdvWorksAPI.RepositoryLayer;
 
 namespace AdvWorksAPI.Controllers;
@@ -8,6 +9,13 @@ namespace AdvWorksAPI.Controllers;
 [ApiController]
 public class ProductController : ControllerBase
 {
+    private readonly IRepository<Product> _Repo;
+
+    public ProductController(IRepository<Product> repo)
+    {
+        _Repo = repo;
+    }
+
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -16,7 +24,7 @@ public class ProductController : ControllerBase
         List<Product> list;
 
         // Get all data
-        list = new ProductRepository().Get();
+        list = _Repo.Get();
 
         if(list != null && list.Count > 0) {
             return StatusCode(StatusCodes.Status200OK, list);
@@ -24,35 +32,6 @@ public class ProductController : ControllerBase
         else {
             return StatusCode(StatusCodes.Status404NotFound, "No products are available.");
         }
-    }
-
-    [HttpGet]
-    [Route("ByCategory/{categoryId}")]
-    public ActionResult<IEnumerable<Product>> SearchByCategory(int categoryId)
-    {
-        Console.WriteLine(categoryId.ToString());
-
-        return StatusCode(StatusCodes.Status200OK);
-    }
-
-    [HttpGet]
-    [Route("ByNameAndPrice/Name/{name:alpha}/ListPrice/{listPrice:decimal:min(1)}")]
-    public ActionResult<IEnumerable<Product>> ByNameAndPrice(string name, decimal listPrice)
-    {
-        Console.WriteLine(name);
-        Console.WriteLine(listPrice);
-
-        return StatusCode(StatusCodes.Status200OK);
-    }
-
-    [HttpGet]
-    [Route("SearchByNameAndPrice")]
-    public ActionResult<IEnumerable<Product>> SearchByNameAndPrice(string name, decimal listPrice)
-    {
-        Console.WriteLine(name);
-        Console.WriteLine(listPrice);
-
-        return StatusCode(StatusCodes.Status200OK);
     }
 
     [HttpGet("{id}")]
@@ -63,7 +42,7 @@ public class ProductController : ControllerBase
         ActionResult<Product?> ret;
         Product? entity;
         
-        entity = new ProductRepository().Get(id);
+        entity = _Repo.Get(id);
 
         if(entity != null) {
             ret = StatusCode(StatusCodes.Status200OK, entity);
