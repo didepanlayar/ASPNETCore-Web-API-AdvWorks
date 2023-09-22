@@ -45,6 +45,16 @@ public class ProductController : ControllerBase
         return StatusCode(StatusCodes.Status200OK);
     }
 
+    [HttpGet]
+    [Route("SearchByNameAndPrice")]
+    public ActionResult<IEnumerable<Product>> SearchByNameAndPrice(string name, decimal listPrice)
+    {
+        Console.WriteLine(name);
+        Console.WriteLine(listPrice);
+
+        return StatusCode(StatusCodes.Status200OK);
+    }
+
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
