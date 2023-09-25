@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using AdvWorksAPI.EntityLayer;
+using System.Text.Json;
 
 namespace AdvWorksAPI.Controllers;
 
@@ -20,7 +22,17 @@ public class LogTestController : ControllerBase
         // Write Log Messages
         WriteLogMessages();
 
-        return "Check Console Window.";
+        return "Check Console Window or Log File.";
+    }
+
+    [HttpGet]
+    [Route("LogObject")]
+    public string LogObject()
+    {
+        // Write Product Object to Log
+        LogProduct();
+        
+        return "Check Console Window or Log File";
     }
 
     private void WriteLogMessages()
@@ -33,5 +45,24 @@ public class LogTestController : ControllerBase
         _Logger.LogError("This is an Error log entry.");
         _Logger.LogError(new ApplicationException("This is an exception."), "Exception Object.");
         _Logger.LogCritical("This is a Critical log entry.");
+    }
+
+    private void LogProduct()
+  {
+        // Log an Object
+        Product entity = new()
+        {
+            ProductID = 999,
+            Name = "A Test Product",
+            StandardCost = 5M,
+            ListPrice = 10.99M,
+            Color = "Black",
+            Size = "LG",
+            ProductNumber = "TEST001"
+        };
+
+        string json = JsonSerializer.Serialize<Product>(entity);
+
+        _Logger.LogInformation("Product = {json}", json);
     }
 }
