@@ -23,6 +23,9 @@ public class ProductController : ControllerBase
     {
         List<Product> list;
 
+        // Intentionally Cause an Exception
+        throw new ApplicationException("Error!");
+
         // Get all data
         list = _Repo.Get();
 
