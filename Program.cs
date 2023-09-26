@@ -2,6 +2,7 @@ using AdvWorksAPI.EntityLayer;
 using AdvWorksAPI.Interfaces;
 using AdvWorksAPI.RepositoryLayer;
 using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,8 @@ builder.Host.UseSerilog((ctx, lc) =>
     // Log to Console
     lc.WriteTo.Console();
     // Log to Rolling File
-    lc.WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day);
+    lc.WriteTo.File("Logs/InfoLog-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Information);
+    lc.WriteTo.File("Logs/ErrorLog-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Error);
 });
 
 builder.Services.AddControllers();
