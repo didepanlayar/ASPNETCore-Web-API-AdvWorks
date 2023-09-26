@@ -40,6 +40,9 @@ else {
     app.UseExceptionHandler("/ProductionError");
 }
 
+// Handle status code error in the range 400-599
+app.UseStatusCodePagesWithReExecute("/StatusCodeHandler/{0}");
+
 app.UseAuthorization();
 
 app.MapControllers();
