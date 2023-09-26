@@ -10,31 +10,49 @@ namespace AdvWorksAPI.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IRepository<Product> _Repo;
+    private readonly ILogger<ProductController> _Logger;
 
-    public ProductController(IRepository<Product> repo)
+    public ProductController(IRepository<Product> repo, ILogger<ProductController> logger)
     {
         _Repo = repo;
+        _Logger = logger;
     }
 
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult<IEnumerable<Product>> Get()
     {
+        ActionResult<IEnumerable<Product>> ret;
         List<Product> list;
+        string msg = "No Products are available.";
 
-        // Intentionally Cause an Exception
-        throw new ApplicationException("Error!");
+        try {
+            // Intentionally Cause an Exception
+            throw new ApplicationException("Error!");
 
-        // Get all data
-        list = _Repo.Get();
+            // Get all data
+            list = _Repo.Get();
 
-        if(list != null && list.Count > 0) {
-            return StatusCode(StatusCodes.Status200OK, list);
+            if(list != null && list.Count > 0) {
+                return StatusCode(StatusCodes.Status200OK, list);
+            }
+            else {
+                return StatusCode(StatusCodes.Status404NotFound, msg);
+            }
         }
-        else {
-            return StatusCode(StatusCodes.Status404NotFound, "No products are available.");
+        catch(Exception ex) {
+            msg = "Error in ProductController.Get()";
+            msg += $"{Environment.NewLine}Message: {ex.Message}";
+            msg += $"{Environment.NewLine}Source: {ex.Source}";
+
+            _Logger.LogError(ex, "{msg}", msg);
+
+            ret = StatusCode(StatusCodes.Status500InternalServerError, new ApplicationException("Error in Product API. Please Contact the System Administrator."));
         }
+
+        return ret;
     }
 
     [HttpGet("{id}")]
