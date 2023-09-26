@@ -32,6 +32,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Enable Exception Handing Middleware
+app.UseExceptionHandler("/ProductionError");
+
 app.UseAuthorization();
 
 app.MapControllers();
