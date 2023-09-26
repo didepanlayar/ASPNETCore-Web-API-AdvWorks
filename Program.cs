@@ -33,7 +33,12 @@ if (app.Environment.IsDevelopment())
 }
 
 // Enable Exception Handing Middleware
-app.UseExceptionHandler("/ProductionError");
+if(app.Environment.IsDevelopment()) {
+    app.UseExceptionHandler("/DevelopmentError");
+}
+else {
+    app.UseExceptionHandler("/ProductionError");
+}
 
 app.UseAuthorization();
 
