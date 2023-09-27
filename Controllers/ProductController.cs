@@ -24,11 +24,11 @@ public class ProductController : ControllerBaseAPI
     {
         ActionResult<IEnumerable<Product>> ret;
         List<Product> list;
-        string msg = "No Products are available.";
+        InfoMessage = "No Products are available.";
 
         try {
             // Intentionally Cause an Exception
-            throw new ApplicationException("Error!");
+            // throw new ApplicationException("Error!");
 
             // Get all data
             list = _Repo.Get();
@@ -37,17 +37,13 @@ public class ProductController : ControllerBaseAPI
                 return StatusCode(StatusCodes.Status200OK, list);
             }
             else {
-                return StatusCode(StatusCodes.Status404NotFound, msg);
+                return StatusCode(StatusCodes.Status404NotFound, InfoMessage);
             }
         }
         catch(Exception ex) {
-            msg = "Error in ProductController.Get()";
-            msg += $"{Environment.NewLine}Message: {ex.Message}";
-            msg += $"{Environment.NewLine}Source: {ex.Source}";
-
-            _Logger.LogError(ex, "{msg}", msg);
-
-            ret = StatusCode(StatusCodes.Status500InternalServerError, new ApplicationException("Error in Product API. Please Contact the System Administrator."));
+            InfoMessage = "Error in Product API. Please Contact the System Administrator.";
+            ErrorLogMessage = "Error in ProductController.Get()";
+            ret = HandleException<IEnumerable<Product>>(ex);
         }
 
         return ret;
