@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using AdvWorksAPI.EntityLayer;
 using AdvWorksAPI.Interfaces;
 using AdvWorksAPI.BaseClasses;
+using Microsoft.Extensions.Options;
 
 namespace AdvWorksAPI.Controllers;
 
@@ -10,10 +11,12 @@ namespace AdvWorksAPI.Controllers;
 public class ProductController : ControllerBaseAPI
 {
     private readonly IRepository<Product> _Repo;
+    private readonly AdvWorksAPIDefaults _Settings;
 
-    public ProductController(IRepository<Product> repo, ILogger<ProductController> logger) : base(logger)
+    public ProductController(IRepository<Product> repo, ILogger<ProductController> logger, IOptionsMonitor<AdvWorksAPIDefaults> settings) : base(logger)
     {
         _Repo = repo;
+        _Settings = settings.CurrentValue;
     }
 
     [HttpGet]
@@ -41,7 +44,7 @@ public class ProductController : ControllerBaseAPI
             }
         }
         catch(Exception ex) {
-            InfoMessage = "Error in Product API. Please Contact the System Administrator.";
+            InfoMessage = _Settings.InfoMessageDefault.Replace("{Verb}", "GET").Replace("{ClassName}", "Product");
             ErrorLogMessage = "Error in ProductController.Get()";
             ret = HandleException<IEnumerable<Product>>(ex);
         }

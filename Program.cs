@@ -12,6 +12,8 @@ builder.Services.AddSingleton<AdvWorksAPIDefaults, AdvWorksAPIDefaults>();
 AdvWorksAPIDefaults settings = new();
 builder.Configuration.GetSection("AdvWorksAPI").Bind(settings);
 builder.Services.AddSingleton<AdvWorksAPIDefaults>(settings);
+// Use the IOptionsMonitor<AdvWorksAPIDefaults> in controller's constructor
+builder.Services.Configure<AdvWorksAPIDefaults>(builder.Configuration.GetSection("AdvWorksAPI"));
 
 builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
 
