@@ -57,7 +57,7 @@ public class LogTestController : ControllerBaseAPI
             ProductNumber = "TEST001"
         };
 
-        string json = JsonSerializer.Serialize<Product>(entity);
+        string json = base.SerializeEntity<Product>(entity);
 
         _Logger.LogInformation("Product = {json}", json);
     }
