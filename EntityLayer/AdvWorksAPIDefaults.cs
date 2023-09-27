@@ -5,11 +5,13 @@ public class AdvWorksAPIDefaults
     public AdvWorksAPIDefaults()
     {
         Created = DateTime.Now;
+        InfoMessageDefault = string.Empty;
         ProductCategoryID = 1;
-        ProductModleID = 2;
+        ProductModelID = 2;
     }
 
     public DateTime Created { get; set; }
+    public string InfoMessageDefault { get; set; }
     public int ProductCategoryID { get; set; }
-    public int ProductModleID { get; set; }
+    public int ProductModelID { get; set; }
 }
