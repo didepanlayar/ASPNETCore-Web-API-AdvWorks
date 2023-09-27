@@ -16,6 +16,17 @@ public class ConfigTestController : ControllerBaseAPI
     }
 
     [HttpGet]
+    [Route("AssignToClass")]
+    public AdvWorksAPIDefaults AssignToClass()
+    {
+        AdvWorksAPIDefaults settings;
+
+        settings = _Config.GetRequiredSection("AdvWorksAPI").Get<AdvWorksAPIDefaults>();
+
+        return settings;
+    }
+
+    [HttpGet]
     [Route("SetProperties")]
     public AdvWorksAPIDefaults SetProperties()
     {
