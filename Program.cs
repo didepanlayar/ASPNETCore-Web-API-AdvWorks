@@ -8,6 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddSingleton<AdvWorksAPIDefaults, AdvWorksAPIDefaults>();
+// Read "AdvWorksAPI" section and add as a singleton
+AdvWorksAPIDefaults settings = new();
+builder.Configuration.GetSection("AdvWorksAPI").Bind(settings);
+builder.Services.AddSingleton<AdvWorksAPIDefaults>(settings);
+
 builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
 
 // Configure logging to Console and File using Serilog
