@@ -1,19 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using AdvWorksAPI.EntityLayer;
 using System.Text.Json;
+using AdvWorksAPI.BaseClasses;
 
 namespace AdvWorksAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class LogTestController : ControllerBase
+public class LogTestController : ControllerBaseAPI
 {
-    private readonly ILogger<LogTestController> _Logger;
-
-    public LogTestController(ILogger<LogTestController> logger)
-    {
-        _Logger = logger;
-    }
+    public LogTestController(ILogger<LogTestController> logger) : base(logger) { }
 
     [HttpGet]
     [Route("WriteMessages")]

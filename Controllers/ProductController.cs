@@ -1,21 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using AdvWorksAPI.EntityLayer;
 using AdvWorksAPI.Interfaces;
-using AdvWorksAPI.RepositoryLayer;
+using AdvWorksAPI.BaseClasses;
 
 namespace AdvWorksAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductController : ControllerBase
+public class ProductController : ControllerBaseAPI
 {
     private readonly IRepository<Product> _Repo;
-    private readonly ILogger<ProductController> _Logger;
 
-    public ProductController(IRepository<Product> repo, ILogger<ProductController> logger)
+    public ProductController(IRepository<Product> repo, ILogger<ProductController> logger) : base(logger)
     {
         _Repo = repo;
-        _Logger = logger;
     }
 
     [HttpGet]
