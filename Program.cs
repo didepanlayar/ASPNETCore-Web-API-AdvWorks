@@ -32,6 +32,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     // Make all property names start with upper-case
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    // Ignore "readonly" fields
+    options.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

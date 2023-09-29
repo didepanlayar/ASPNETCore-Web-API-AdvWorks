@@ -12,6 +12,7 @@ public class Product
         Size = string.Empty;
     }
 
+    public bool IsActive { get; }
     public int ProductID { get; set; }
     public string Name { get; set; }
     // [JsonPropertyOrder(-1)]
