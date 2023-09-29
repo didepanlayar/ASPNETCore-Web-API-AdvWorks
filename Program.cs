@@ -17,6 +17,20 @@ builder.Services.Configure<AdvWorksAPIDefaults>(builder.Configuration.GetSection
 
 builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AdvWorksAPICorsPolicy",
+        builder =>
+        {
+            //builder.AllowAnyOrigin();
+            builder.WithOrigins("http://localhost:5222", "http://www.example.com");
+            //builder.WithOrigins("http://localhost:5156", "http://www.example.com").AllowAnyMethod();
+            //builder.WithOrigins("http://localhost:5156", "http://www.example.com").WithMethods("GET", "POST", "PUT");
+        }
+    );
+});
+
 // Configure logging to Console and File using Serilog
 builder.Host.UseSerilog((ctx, lc) =>
 {
@@ -59,6 +73,9 @@ else {
 
 // Handle status code error in the range 400-599
 app.UseStatusCodePagesWithReExecute("/StatusCodeHandler/{0}");
+
+// Enable CORS Middleware
+app.UseCors("AdvWorksAPICorsPolicy");
 
 app.UseAuthorization();
 
