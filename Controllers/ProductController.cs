@@ -72,4 +72,20 @@ public class ProductController : ControllerBaseAPI
 
         return ret;
     }
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [Consumes("application/xml")]
+    [Produces("application/xml")]
+    public ActionResult<Product> Post(Product entity)
+    {
+        ActionResult<Product> ret;
+
+        // TODO: Insert Data into Data Store
+        entity.ModifiedDate = DateTime.Now;
+
+        ret = StatusCode(StatusCodes.Status201Created, entity);
+
+        return ret;
+    }
 }
