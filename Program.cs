@@ -34,7 +34,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
     // Ignore "readonly" fields
     options.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
-});
+}).AddXmlSerializerFormatters();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
