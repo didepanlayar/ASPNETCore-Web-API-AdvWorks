@@ -23,23 +23,10 @@ builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
 builder.Services.ConfigureCors();
 
 // Configure logging to Console and File using Serilog
-builder.Host.UseSerilog((ctx, lc) =>
-{
-    // Log to Console
-    lc.WriteTo.Console();
-    // Log to Rolling File
-    lc.WriteTo.File("Logs/InfoLog-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Information);
-    lc.WriteTo.File("Logs/ErrorLog-.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel: LogEventLevel.Error);
-});
+builder.Host.ConfigureSeriLog();
 
 // Configure ASP.NET to use the Controller model
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    // Make all property names start with upper-case
-    options.JsonSerializerOptions.PropertyNamingPolicy = null;
-    // Ignore "readonly" fields
-    options.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
-}).AddXmlSerializerFormatters();
+builder.Services.AddControllers().ConfigureJsonOptions();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
