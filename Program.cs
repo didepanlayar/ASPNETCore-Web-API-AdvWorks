@@ -1,6 +1,3 @@
-using AdvWorksAPI.EntityLayer;
-using AdvWorksAPI.Interfaces;
-using AdvWorksAPI.RepositoryLayer;
 using AdvWorksAPI.ConstantClasses;
 using AdvWorksAPI.ExtensionClasses;
 
@@ -9,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.ConfigureGlobalSettings();
 
-builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
+// Configure Repository Classes
+builder.Services.AddRepositoryClasses();
 
 // Add CORS
 builder.Services.ConfigureCors();

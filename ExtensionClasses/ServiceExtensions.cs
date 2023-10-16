@@ -1,9 +1,17 @@
 using AdvWorksAPI.ConstantClasses;
+using AdvWorksAPI.EntityLayer;
+using AdvWorksAPI.Interfaces;
+using AdvWorksAPI.RepositoryLayer;
 
 namespace AdvWorksAPI.ExtensionClasses;
 
 public static class ServiceExtension
 {
+    public static void AddRepositoryClasses(this IServiceCollection services)
+    {
+        // Add Repository Classes
+        services.AddScoped<IRepository<Product>, ProductRepository>();
+    }
     public static IServiceCollection ConfigureCors(this IServiceCollection services)
     {
         // Add CORS
