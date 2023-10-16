@@ -1,6 +1,7 @@
 using AdvWorksAPI.EntityLayer;
 using AdvWorksAPI.Interfaces;
 using AdvWorksAPI.RepositoryLayer;
+using AdvWorksAPI.ConstantClasses;
 using Serilog;
 using Serilog.Events;
 
@@ -20,7 +21,7 @@ builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
 // Add CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AdvWorksAPICorsPolicy",
+    options.AddPolicy(AdvWorksAPIConstants.CORS_POLICY,
         builder =>
         {
             //builder.AllowAnyOrigin();
@@ -75,7 +76,7 @@ else {
 app.UseStatusCodePagesWithReExecute("/StatusCodeHandler/{0}");
 
 // Enable CORS Middleware
-app.UseCors("AdvWorksAPICorsPolicy");
+app.UseCors(AdvWorksAPIConstants.CORS_POLICY);
 
 app.UseAuthorization();
 
