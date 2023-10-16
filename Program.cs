@@ -3,19 +3,11 @@ using AdvWorksAPI.Interfaces;
 using AdvWorksAPI.RepositoryLayer;
 using AdvWorksAPI.ConstantClasses;
 using AdvWorksAPI.ExtensionClasses;
-using Serilog;
-using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddSingleton<AdvWorksAPIDefaults, AdvWorksAPIDefaults>();
-// Read "AdvWorksAPI" section and add as a singleton
-AdvWorksAPIDefaults settings = new();
-builder.Configuration.GetSection("AdvWorksAPI").Bind(settings);
-builder.Services.AddSingleton<AdvWorksAPIDefaults>(settings);
-// Use the IOptionsMonitor<AdvWorksAPIDefaults> in controller's constructor
-builder.Services.Configure<AdvWorksAPIDefaults>(builder.Configuration.GetSection("AdvWorksAPI"));
+builder.ConfigureGlobalSettings();
 
 builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
 
