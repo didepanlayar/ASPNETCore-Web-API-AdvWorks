@@ -2,6 +2,7 @@ using AdvWorksAPI.EntityLayer;
 using AdvWorksAPI.Interfaces;
 using AdvWorksAPI.RepositoryLayer;
 using AdvWorksAPI.ConstantClasses;
+using AdvWorksAPI.ExtensionClasses;
 using Serilog;
 using Serilog.Events;
 
@@ -19,18 +20,7 @@ builder.Services.Configure<AdvWorksAPIDefaults>(builder.Configuration.GetSection
 builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
 
 // Add CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(AdvWorksAPIConstants.CORS_POLICY,
-        builder =>
-        {
-            //builder.AllowAnyOrigin();
-            builder.WithOrigins("http://localhost:5222", "http://www.example.com");
-            //builder.WithOrigins("http://localhost:5156", "http://www.example.com").AllowAnyMethod();
-            //builder.WithOrigins("http://localhost:5156", "http://www.example.com").WithMethods("GET", "POST", "PUT");
-        }
-    );
-});
+builder.Services.ConfigureCors();
 
 // Configure logging to Console and File using Serilog
 builder.Host.UseSerilog((ctx, lc) =>
