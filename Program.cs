@@ -15,6 +15,9 @@ builder.Services.ConfigureCors();
 // Configure logging to Console and File using Serilog
 builder.Host.ConfigureSeriLog();
 
+// Configure Authentication
+builder.Services.AddAuthentication();
+
 // Configure ASP.NET to use the Controller model
 builder.Services.AddControllers().ConfigureJsonOptions();
 
@@ -45,6 +48,8 @@ app.UseStatusCodePagesWithReExecute("/StatusCodeHandler/{0}");
 // Enable CORS Middleware
 app.UseCors(AdvWorksAPIConstants.CORS_POLICY);
 
+// Enable Authentication and Authorization Middleware
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
