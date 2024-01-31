@@ -1,4 +1,5 @@
 using AdvWorksAPI.ConstantClasses;
+using AdvWorksAPI.EntityLayer;
 using AdvWorksAPI.ExtensionClasses;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,8 +16,11 @@ builder.Services.ConfigureCors();
 // Configure logging to Console and File using Serilog
 builder.Host.ConfigureSeriLog();
 
-// Configure Authentication
-builder.Services.AddAuthentication();
+// Add & Configure JWT Authentication
+builder.Services.ConfigureJwtAuthentication(builder.Configuration.GetRequiredSection("AdvWorksAPI").Get<AdvWorksAPIDefaults>());
+
+// Add & Configure JWT Authorization
+builder.Services.ConfigureJwtAuthorization();
 
 // Configure ASP.NET to use the Controller model
 builder.Services.AddControllers().ConfigureJsonOptions();
