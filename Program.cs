@@ -25,9 +25,8 @@ builder.Services.ConfigureJwtAuthorization();
 // Configure ASP.NET to use the Controller model
 builder.Services.AddControllers().ConfigureJsonOptions();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Add & Configure Open API (Swagger)
+builder.Services.ConfigureOpenAPI();
 
 var app = builder.Build();
 

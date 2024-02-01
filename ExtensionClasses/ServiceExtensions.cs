@@ -6,6 +6,7 @@ using AdvWorksAPI.RepositoryLayer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace AdvWorksAPI.ExtensionClasses;
 
@@ -15,6 +16,38 @@ public static class ServiceExtension
     {
         // Add Repository Classes
         services.AddScoped<IRepository<Product>, ProductRepository>();
+    }
+    public static IServiceCollection ConfigureOpenAPI(this IServiceCollection services)
+    {
+        // Configure Open API (Swagger)
+        // More Info: https://aka.ms/aspnetcore/swashbuckle
+        services.AddEndpointsApiExplorer();
+        return services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Name = "Authorization",
+                Description = "Bearer Authentication with JWT Token",
+                Type = SecuritySchemeType.Http
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Id = "Bearer",
+                            Type = ReferenceType.SecurityScheme
+                        }
+                    },
+                    new List<string>()
+                }
+            });
+        });
     }
     public static AuthenticationBuilder ConfigureJwtAuthentication(this IServiceCollection services, AdvWorksAPIDefaults settings)
     {
