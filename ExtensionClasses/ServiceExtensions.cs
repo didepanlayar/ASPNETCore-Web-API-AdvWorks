@@ -74,7 +74,14 @@ public static class ServiceExtension
     }
     public static IServiceCollection ConfigureJwtAuthorization(this IServiceCollection services)
     {
-        return services.AddAuthorization();
+        return services.AddAuthorization(options =>
+        {
+            options.AddPolicy("GetProductsClaim", policy => policy.RequireClaim("GetProducts"));
+            options.AddPolicy("GetAProductClaim", policy => policy.RequireClaim("GetAProduct"));
+            options.AddPolicy("SearchClaim", policy => policy.RequireClaim("Search"));
+            options.AddPolicy("AddProductClaim", policy => policy.RequireClaim("AddProduct"));
+            options.AddPolicy("UpdateProductClaim", policy => policy.RequireClaim("UpdateProduct"));
+        });
     }
     public static IServiceCollection ConfigureCors(this IServiceCollection services)
     {

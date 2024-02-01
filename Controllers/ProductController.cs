@@ -3,6 +3,7 @@ using AdvWorksAPI.EntityLayer;
 using AdvWorksAPI.Interfaces;
 using AdvWorksAPI.BaseClasses;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AdvWorksAPI.Controllers;
 
@@ -20,6 +21,7 @@ public class ProductController : ControllerBaseAPI
     }
 
     [HttpGet]
+    [Authorize(Policy = "GetProductsClaim")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

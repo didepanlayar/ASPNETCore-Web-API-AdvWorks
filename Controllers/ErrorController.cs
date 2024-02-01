@@ -23,6 +23,10 @@ public class ErrorController : ControllerBase
                 msg = $"API Route Was Not Authorized: '{msg}'";
                 ret = StatusCode(StatusCodes.Status401Unauthorized, msg);
                 break;
+            case 403:
+                msg = $"API Route Prohibited: '{msg}'";
+                ret = StatusCode(StatusCodes.Status403Forbidden, msg);
+                break;
             case 404:
                 msg = $"API Route Was Not Found: '{msg}'";
                 ret = StatusCode(StatusCodes.Status404NotFound, msg);
