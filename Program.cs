@@ -7,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.ConfigureGlobalSettings();
 
+// Add & Configure AdventureWorksLT DbContext
+builder.Services.ConfigureAdventureWorksDB(builder.Configuration.GetConnectionString("DefaultConnection"));
+
 // Configure Repository Classes
 builder.Services.AddRepositoryClasses();
 

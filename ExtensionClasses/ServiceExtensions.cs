@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using AdvWorksAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdvWorksAPI.ExtensionClasses;
 
@@ -16,6 +18,11 @@ public static class ServiceExtension
     {
         // Add Repository Classes
         services.AddScoped<IRepository<Product>, ProductRepository>();
+    }
+    public static IServiceCollection ConfigureAdventureWorksDB(this IServiceCollection services, string? cnn)
+    {
+        // Setup the DbContext object
+        return services.AddDbContext<AdvWorksLTDbContext>(options => options.UseSqlServer(cnn));
     }
     public static IServiceCollection ConfigureOpenAPI(this IServiceCollection services)
     {
