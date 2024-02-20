@@ -1,8 +1,10 @@
-using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AdvWorksAPI.EntityLayer;
 
-public class Product
+[Table("Product", Schema = "SalesLT")]
+public partial class Product
 {
     public Product()
     {
@@ -12,24 +14,33 @@ public class Product
         Size = string.Empty;
     }
 
-    public bool IsActive { get; }
+    [Required]
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ProductID { get; set; }
+    [Required(ErrorMessage = "The Product Name is required")]
     public string Name { get; set; }
-    // [JsonPropertyOrder(-1)]
+    [Required]
     public string ProductNumber { get; set; }
     public string? Color { get; set; }
+    [Required]
+    [Column(TypeName = "decimal(18, 2)")]
     public decimal StandardCost { get; set; }
+    [Required]
+    [Column(TypeName = "decimal(18, 2)")]
     public decimal ListPrice { get; set; }
     public string? Size { get; set; }
+    [Column(TypeName = "decimal(8, 2)")]
     public decimal? Weight { get; set; }
-    // [JsonPropertyName("categoryId")]
     public int ProductCategoryID { get; set; }
-    // [JsonPropertyName("modelId")]
     public int ProductModelID { get; set; }
+    [Required]
     public DateTime SellStartDate { get; set; }
     public DateTime? SellEndDate { get; set; }
     public DateTime? DiscontinuedDate { get; set; }
-    // [JsonIgnore]
-    public Guid rowguid { get; set; }
+    [Required]
+    [Column("rowguid")]
+    public Guid RowGuid { get; set; }
+    [Required]
     public DateTime ModifiedDate { get; set; }
 }
