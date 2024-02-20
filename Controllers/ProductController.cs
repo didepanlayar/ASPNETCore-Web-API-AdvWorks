@@ -21,7 +21,7 @@ public class ProductController : ControllerBaseAPI
     }
 
     [HttpGet]
-    [Authorize(Policy = "GetProductsClaim")]
+    // [Authorize(Policy = "GetProductsClaim")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
