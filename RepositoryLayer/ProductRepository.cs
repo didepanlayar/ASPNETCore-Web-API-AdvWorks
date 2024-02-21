@@ -59,7 +59,16 @@ public class ProductRepository : IRepository<Product>
     #region Update Method
     public Product Update(Product entity)
     {
-        throw new NotImplementedException();
+        // Set the last modified date
+        entity.ModifiedDate = DateTime.Now;
+
+        // Update entity in Products DbSet
+        _DbContext.Products.Update(entity);
+
+        // Save changes in database
+        _DbContext.SaveChanges();
+
+        return entity;
     }
     #endregion
 

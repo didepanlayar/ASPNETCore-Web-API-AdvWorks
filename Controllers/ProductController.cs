@@ -118,4 +118,66 @@ public class ProductController : ControllerBaseAPI
 
         return ret;
     }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<Product> Put(int id, [FromBody] Product entity)
+    {
+        ActionResult<Product> ret;
+
+        // Serialize entity
+        SerializeEntity<Product>(entity);
+
+        try
+        {
+            if (entity != null)
+            {
+                // Attempt to locate the data to update
+                Product? current = _Repo.Get(id);
+
+                if (current != null)
+                {
+                    // Combine changes into current record
+                    entity = _Repo.SetValues(current, entity);
+
+                    // Attempt to update the database
+                    current = _Repo.Update(current);
+
+                    // Pass back a '200 Ok'
+                    ret = StatusCode(StatusCodes.Status200OK, current);
+                }
+                else
+                {
+                    InfoMessage = $"Can't find Product Id '{id}' to update.";
+                    // Did not find data, return '404 Not Found'
+                    ret = StatusCode(StatusCodes.Status404NotFound, InfoMessage);
+                    // Log an informational message
+                    _Logger.LogInformation("{InfoMessage}", InfoMessage);
+                }
+            }
+            else
+            {
+                InfoMessage = $"Product object passed to PUT is empty.";
+                // Return a '400 Bad Request'
+                ret = StatusCode(StatusCodes.Status400BadRequest, InfoMessage);
+                // Log an informational message
+                _Logger.LogInformation("InfoMessage}", InfoMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Return generic message for the user
+            InfoMessage = _Settings.InfoMessageDefault
+              .Replace("{Verb}", "PUT")
+              .Replace("{ClassName}", "Product");
+
+            ErrorLogMessage = $"ProductController.Put() - Exception trying to update Product: {EntityAsJson}";
+            ret = HandleException<Product>(ex);
+        }
+
+        return ret;
+    }
 }
