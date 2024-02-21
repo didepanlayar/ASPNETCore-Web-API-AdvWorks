@@ -42,7 +42,17 @@ public class ProductRepository : IRepository<Product>
     #region Insert Method
     public Product Insert(Product entity)
     {
-        throw new NotImplementedException();
+        // Fill in required fields not passed by client
+        entity.RowGuid = Guid.NewGuid();
+        entity.ModifiedDate = DateTime.Now;
+
+        // Add new entity to Products DbSet
+        _DbContext.Products.Add(entity);
+
+        // Save changes in database
+        _DbContext.SaveChanges();
+
+        return entity;
     }
     #endregion
 

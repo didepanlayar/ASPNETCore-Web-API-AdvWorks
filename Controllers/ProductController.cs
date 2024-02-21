@@ -77,16 +77,44 @@ public class ProductController : ControllerBaseAPI
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    [Consumes("application/xml")]
-    [Produces("application/xml")]
-    public ActionResult<Product> Post(Product entity)
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<Product> Post([FromBody] Product entity)
     {
         ActionResult<Product> ret;
 
-        // TODO: Insert Data into Data Store
-        entity.ModifiedDate = DateTime.Now;
+        // Serialize entity
+        SerializeEntity<Product>(entity);
 
-        ret = StatusCode(StatusCodes.Status201Created, entity);
+        try
+        {
+            if (entity != null)
+            {
+                // Attempt to update the database
+                entity = _Repo.Insert(entity);
+
+                // Return a '201 Created' with the new entity
+                ret = StatusCode(StatusCodes.Status201Created, entity);
+            }
+            else
+            {
+                InfoMessage = $"Product object passed to POST is empty.";
+                // Return a '400 Bad Request'
+                ret = StatusCode(StatusCodes.Status400BadRequest, InfoMessage);
+                // Log an informational message
+                _Logger.LogInformation("{InfoMessage}", InfoMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Return generic message for the user
+            InfoMessage = _Settings.InfoMessageDefault
+              .Replace("{Verb}", "POST")
+              .Replace("{ClassName}", "Product");
+
+            ErrorLogMessage = $"ProductController.Post() - Exception trying to insert a new product: {EntityAsJson}";
+            ret = HandleException<Product>(ex);
+        }
 
         return ret;
     }
