@@ -180,4 +180,43 @@ public class ProductController : ControllerBaseAPI
 
         return ret;
     }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<Product> Delete(int id)
+    {
+        ActionResult<Product> ret;
+
+        try
+        {
+            // Attempt to delete from the database    
+            if (_Repo.Delete(id))
+            {
+                // Return '204 No Content'
+                ret = StatusCode(StatusCodes.Status204NoContent);
+            }
+            else
+            {
+                InfoMessage = $"Can't find Product Id '{id}' to delete.";
+                // Did not find data, return '404 Not Found'
+                ret = StatusCode(StatusCodes.Status404NotFound, InfoMessage);
+                // Log an informational message
+                _Logger.LogInformation("{InfoMessage}", InfoMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            // Return generic message for the user
+            InfoMessage = _Settings.InfoMessageDefault
+              .Replace("{Verb}", "DELETE")
+              .Replace("{ClassName}", "Product");
+
+            ErrorLogMessage = $"ProductController.Delete() - Exception trying to delete ProductID: '{id}'.";
+            ret = HandleException<Product>(ex);
+        }
+
+        return ret;
+    }
 }

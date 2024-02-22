@@ -101,7 +101,22 @@ public class ProductRepository : IRepository<Product>
     #region Delete Method
     public bool Delete(int id)
     {
-        throw new NotImplementedException();
+        Product? entity = _DbContext.Products.Find(id);
+
+        if (entity != null)
+        {
+            // Locate the entity to delete in the Products DbSet
+            _DbContext.Products.Remove(entity);
+
+            // Save changes in database
+            _DbContext.SaveChanges();
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     #endregion
 }
