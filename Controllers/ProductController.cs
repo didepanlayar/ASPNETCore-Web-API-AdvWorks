@@ -75,6 +75,47 @@ public class ProductController : ControllerBaseAPI
         return ret;
     }
 
+    #region Search Method
+    [HttpGet()]
+    [Route("Search")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public ActionResult<IEnumerable<Product>> Search([FromQuery()] ProductSearch search)
+    {
+        ActionResult<IEnumerable<Product>> ret;
+        List<Product> list;
+
+        InfoMessage = "Can't find products matching the criteria passed in.";
+
+        try
+        {
+            // Search for Data
+            list = _Repo.Search(search);
+
+            if (list != null && list.Count > 0)
+            {
+                return StatusCode(StatusCodes.Status200OK, list);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status404NotFound, InfoMessage);
+            }
+        }
+        catch (Exception ex)
+        {
+            InfoMessage = _Settings.InfoMessageDefault
+              .Replace("{Verb}", "Search").Replace("{ClassName}", "Product");
+
+            ErrorLogMessage = "Error in ProductController.Search()";
+
+            ret = HandleException<IEnumerable<Product>>(ex);
+        }
+
+        return ret;
+    }
+    #endregion
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
