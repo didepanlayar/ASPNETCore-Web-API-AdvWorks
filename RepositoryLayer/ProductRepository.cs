@@ -39,6 +39,49 @@ public class ProductRepository : IRepository<Product>
     }
     #endregion
 
+    #region Search Methods
+    public virtual List<Product> Search(ProductSearch search)
+    {
+        IQueryable<Product> query = _DbContext.Products;
+
+        // Add WHERE clause(s)
+        query = AddWhereClause(query, search);
+
+        // Add ORDER BY clause(s)
+        query = AddOrderByClause(query, search);
+
+        return query.ToList();
+    }
+
+    protected virtual IQueryable<Product> AddWhereClause(IQueryable<Product> query, ProductSearch search)
+    {
+        // Perform Searching      
+        if (!string.IsNullOrEmpty(search.Name))
+        {
+            query = query.Where(row => row.Name.StartsWith(search.Name));
+        }
+        if (search.ListPrice.HasValue)
+        {
+            query = query.Where(row => row.ListPrice >= search.ListPrice);
+        }
+
+        return query;
+    }
+
+    protected virtual IQueryable<Product> AddOrderByClause(IQueryable<Product> query, ProductSearch search)
+    {
+        switch (search.OrderBy.ToLower())
+        {
+            case "":
+            case "name":
+                query = query.OrderBy(row => row.Name);
+                break;
+        }
+
+        return query;
+    }
+    #endregion
+
     #region Insert Method
     public Product Insert(Product entity)
     {
