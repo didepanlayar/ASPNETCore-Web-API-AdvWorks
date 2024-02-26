@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using AdvWorksAPI.EntityLayer;
 using AdvWorksAPI.Interfaces;
 using AdvWorksAPI.BaseClasses;
+using AdvWorksAPI.SearchClasses;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 

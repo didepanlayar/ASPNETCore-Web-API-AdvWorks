@@ -1,5 +1,6 @@
 using AdvWorksAPI.EntityLayer;
 using AdvWorksAPI.Interfaces;
+using AdvWorksAPI.SearchClasses;
 using AdvWorksAPI.Models;
 
 namespace AdvWorksAPI.RepositoryLayer;
