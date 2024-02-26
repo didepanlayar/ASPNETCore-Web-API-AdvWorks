@@ -11,10 +11,10 @@ namespace AdvWorksAPI.Controllers;
 [ApiController]
 public class ProductController : ControllerBaseAPI
 {
-    private readonly IRepository<Product> _Repo;
+    private readonly IRepository<Product, ProductSearch> _Repo;
     private readonly AdvWorksAPIDefaults _Settings;
 
-    public ProductController(IRepository<Product> repo, ILogger<ProductController> logger, IOptionsMonitor<AdvWorksAPIDefaults> settings) : base(logger)
+    public ProductController(IRepository<Product, ProductSearch> repo, ILogger<ProductController> logger, IOptionsMonitor<AdvWorksAPIDefaults> settings) : base(logger)
     {
         _Repo = repo;
         _Settings = settings.CurrentValue;

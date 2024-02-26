@@ -17,7 +17,7 @@ public static class ServiceExtension
     public static void AddRepositoryClasses(this IServiceCollection services)
     {
         // Add Repository Classes
-        services.AddScoped<IRepository<Product>, ProductRepository>();
+        services.AddScoped<IRepository<Product, ProductSearch>, ProductRepository>();
     }
     public static IServiceCollection ConfigureAdventureWorksDB(this IServiceCollection services, string? cnn)
     {

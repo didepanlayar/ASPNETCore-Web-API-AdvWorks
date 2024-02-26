@@ -7,7 +7,7 @@ namespace AdvWorksAPI.RepositoryLayer;
 /// <summary>
 /// Class to work with Product data
 /// </summary>
-public class ProductRepository : IRepository<Product>
+public class ProductRepository : IRepository<Product, ProductSearch>
 {
     private readonly AdvWorksLTDbContext _DbContext;
 

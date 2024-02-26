@@ -1,11 +1,12 @@
 namespace AdvWorksAPI.Interfaces;
 
-public interface IRepository<T>
+public interface IRepository<TEntity, TSearch>
 {
-    List<T> Get();
-    T? Get(int id);
-    T Insert(T entity);
-    T Update(T entity);
-    T SetValues(T current, T changes);
+    List<TEntity> Get();
+    TEntity? Get(int id);
+    List<TEntity> Search(TSearch search);
+    TEntity Insert(TEntity entity);
+    TEntity Update(TEntity entity);
+    TEntity SetValues(TEntity current, TEntity changes);
     bool Delete(int id);
 }
