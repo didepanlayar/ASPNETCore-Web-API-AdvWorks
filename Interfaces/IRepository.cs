@@ -2,6 +2,10 @@ namespace AdvWorksAPI.Interfaces;
 
 public interface IRepository<TEntity, TSearch>
 {
+    // Asynchronous Methods
+    Task<List<TEntity>> GetAsynch();
+
+    // Synchronous Methods
     List<TEntity> Get();
     TEntity? Get(int id);
     List<TEntity> Search(TSearch search);

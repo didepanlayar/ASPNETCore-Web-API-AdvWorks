@@ -6,9 +6,9 @@ using AdvWorksAPI.Models;
 namespace AdvWorksAPI.RepositoryLayer;
 
 /// <summary>
-/// Class to work with Product data
+///Synchrounous access to Product data
 /// </summary>
-public class ProductRepository : IRepository<Product, ProductSearch>
+public partial class ProductRepository : IRepository<Product, ProductSearch>
 {
     private readonly AdvWorksLTDbContext _DbContext;
 
