@@ -5,6 +5,10 @@ public interface IRepository<TEntity, TSearch>
     // Asynchronous Methods
     Task<List<TEntity>> GetAsync();
     Task<TEntity?> GetAsync(int id);
+    Task<List<TEntity>> SearchAsync(TSearch search);
+    Task<TEntity> InsertAsync(TEntity entity);
+    Task<TEntity> UpdateAsync(TEntity entity);
+    Task<bool> DeleteAsync(int id);
 
     // Synchronous Methods
     List<TEntity> Get();
