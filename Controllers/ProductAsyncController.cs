@@ -62,4 +62,30 @@ public partial class ProductAsyncController : ControllerBaseAPI
         return ret;
     }
     #endregion
+
+    #region GetAsync(id) Method
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<Product>> GetAsync(int id)
+    {
+        ActionResult<Product> ret;
+        Product? entity;
+
+        entity = await _Repo.GetAsync(id);
+
+        if (entity != null)
+        {
+            // Found data, return '200 OK'
+            ret = StatusCode(StatusCodes.Status200OK, entity);
+        }
+        else
+        {
+            // Did not find data, return '404 Not Found'
+            ret = StatusCode(StatusCodes.Status404NotFound, $"Can't find Product with a Product Id of '{id}'.");
+        }
+
+        return ret;
+    }
+    #endregion
 }

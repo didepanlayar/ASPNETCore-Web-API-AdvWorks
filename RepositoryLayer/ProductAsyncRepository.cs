@@ -19,4 +19,11 @@ public partial class ProductRepository
         return await _DbContext.Products.OrderBy(row => row.Name).ToListAsync();
     }
     #endregion
+
+    #region GetAsync(id) Method
+    public async Task<Product?> GetAsync(int id)
+    {
+        return await _DbContext.Products.Where(row => row.ProductID == id).FirstOrDefaultAsync();
+    }
+    #endregion
 }
