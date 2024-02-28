@@ -3,7 +3,7 @@ namespace AdvWorksAPI.Interfaces;
 public interface IRepository<TEntity, TSearch>
 {
     // Asynchronous Methods
-    Task<List<TEntity>> GetAsynch();
+    Task<List<TEntity>> GetAsync();
 
     // Synchronous Methods
     List<TEntity> Get();
